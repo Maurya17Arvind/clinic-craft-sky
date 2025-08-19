@@ -379,12 +379,114 @@ export default function Pharmacy() {
                     <TableCell>{getStockStatus(medication.stock, medication.minStock)}</TableCell>
                     <TableCell>
                       <div className="flex space-x-2">
-                        <Button variant="outline" size="sm" onClick={() => handleViewMedication(medication)}>
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" size="sm" onClick={() => handleEditMedication(medication)}>
-                          <Edit className="w-4 h-4" />
-                        </Button>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="outline" size="sm">
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-2xl">
+                            <DialogHeader>
+                              <DialogTitle>Medication Details - {medication.name}</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4 py-4">
+                              <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Medication ID</label>
+                                  <p className="text-sm">{medication.id}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Name</label>
+                                  <p className="text-sm">{medication.name}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Category</label>
+                                  <p className="text-sm">{medication.category}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Manufacturer</label>
+                                  <p className="text-sm">{medication.manufacturer}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Current Stock</label>
+                                  <p className="text-sm">{medication.stock} units</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Minimum Stock</label>
+                                  <p className="text-sm">{medication.minStock} units</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Price per Unit</label>
+                                  <p className="text-sm">${medication.price}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Expiry Date</label>
+                                  <p className="text-sm">{medication.expiryDate}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Batch Number</label>
+                                  <p className="text-sm">{medication.batchNo}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Status</label>
+                                  <p className="text-sm">{medication.status}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                        
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="outline" size="sm">
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-2xl">
+                            <DialogHeader>
+                              <DialogTitle>Edit Medication - {medication.name}</DialogTitle>
+                            </DialogHeader>
+                            <div className="grid grid-cols-2 gap-4 py-4">
+                              <div className="space-y-2">
+                                <label className="text-sm font-medium">Medication Name</label>
+                                <Input defaultValue={medication.name} />
+                              </div>
+                              <div className="space-y-2">
+                                <label className="text-sm font-medium">Category</label>
+                                <Input defaultValue={medication.category} />
+                              </div>
+                              <div className="space-y-2">
+                                <label className="text-sm font-medium">Manufacturer</label>
+                                <Input defaultValue={medication.manufacturer} />
+                              </div>
+                              <div className="space-y-2">
+                                <label className="text-sm font-medium">Batch Number</label>
+                                <Input defaultValue={medication.batchNo} />
+                              </div>
+                              <div className="space-y-2">
+                                <label className="text-sm font-medium">Current Stock</label>
+                                <Input type="number" defaultValue={medication.stock} />
+                              </div>
+                              <div className="space-y-2">
+                                <label className="text-sm font-medium">Minimum Stock</label>
+                                <Input type="number" defaultValue={medication.minStock} />
+                              </div>
+                              <div className="space-y-2">
+                                <label className="text-sm font-medium">Price per Unit</label>
+                                <Input type="number" step="0.01" defaultValue={medication.price} />
+                              </div>
+                              <div className="space-y-2">
+                                <label className="text-sm font-medium">Expiry Date</label>
+                                <Input type="date" defaultValue={medication.expiryDate} />
+                              </div>
+                              <div className="col-span-2 flex justify-end space-x-2">
+                                <Button variant="outline">Cancel</Button>
+                                <Button className="bg-gradient-primary" onClick={() => handleEditMedication(medication)}>Update Medication</Button>
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                        
                         {medication.stock <= medication.minStock && (
                           <Button 
                             variant="outline" 
@@ -447,9 +549,58 @@ export default function Pharmacy() {
                             Dispense
                           </Button>
                         )}
-                        <Button variant="outline" size="sm" onClick={() => handleViewPrescription(prescription)}>
-                          <Eye className="w-4 h-4" />
-                        </Button>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="outline" size="sm">
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-2xl">
+                            <DialogHeader>
+                              <DialogTitle>Prescription Details - {prescription.id}</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4 py-4">
+                              <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Prescription ID</label>
+                                  <p className="text-sm">{prescription.id}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Patient</label>
+                                  <p className="text-sm">{prescription.patient} ({prescription.patientId})</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Doctor</label>
+                                  <p className="text-sm">{prescription.doctor}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Medication</label>
+                                  <p className="text-sm">{prescription.medication}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Dosage</label>
+                                  <p className="text-sm">{prescription.dosage}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Quantity</label>
+                                  <p className="text-sm">{prescription.quantity} units</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Date</label>
+                                  <p className="text-sm">{prescription.date}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-muted-foreground">Total Cost</label>
+                                  <p className="text-sm">${prescription.total}</p>
+                                </div>
+                                <div className="col-span-2">
+                                  <label className="text-sm font-medium text-muted-foreground">Status</label>
+                                  <p className="text-sm">{prescription.status}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
                       </div>
                     </TableCell>
                   </TableRow>

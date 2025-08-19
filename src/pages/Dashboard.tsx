@@ -2,6 +2,14 @@ import { StatsCard } from "@/components/dashboard/StatsCard";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Users,
   UserCheck,
@@ -18,29 +26,22 @@ import { toast } from "@/components/ui/use-toast";
 export default function Dashboard() {
   const handleAddPatient = () => {
     toast({
-      title: "Add Patient",
-      description: "Opening patient registration form...",
+      title: "Patient Registered",
+      description: "New patient has been successfully registered.",
     });
   };
 
   const handleScheduleAppointment = () => {
     toast({
-      title: "Schedule Appointment",
-      description: "Opening appointment booking form...",
+      title: "Appointment Scheduled",
+      description: "New appointment has been successfully booked.",
     });
   };
 
   const handleAddDoctor = () => {
     toast({
-      title: "Add Doctor",
-      description: "Opening doctor registration form...",
-    });
-  };
-
-  const handleViewReports = () => {
-    toast({
-      title: "View Reports",
-      description: "Opening analytics dashboard...",
+      title: "Doctor Added",
+      description: "New doctor has been successfully registered.",
     });
   };
 
@@ -61,14 +62,101 @@ export default function Dashboard() {
             Comprehensive healthcare management at your fingertips
           </p>
           <div className="flex space-x-4">
-            <Button variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={handleAddPatient}>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Patient
-            </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white/10" onClick={handleScheduleAppointment}>
-              <Calendar className="w-4 h-4 mr-2" />
-              Schedule Appointment
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="secondary" className="bg-white text-primary hover:bg-white/90">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Patient
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Register New Patient</DialogTitle>
+                </DialogHeader>
+                <div className="grid grid-cols-2 gap-4 py-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">First Name</label>
+                    <Input placeholder="Enter first name" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Last Name</label>
+                    <Input placeholder="Enter last name" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Age</label>
+                    <Input type="number" placeholder="Enter age" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Gender</label>
+                    <Input placeholder="Male/Female/Other" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Phone</label>
+                    <Input placeholder="Enter phone number" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Email</label>
+                    <Input type="email" placeholder="Enter email" />
+                  </div>
+                  <div className="col-span-2 space-y-2">
+                    <label className="text-sm font-medium">Medical Condition</label>
+                    <Input placeholder="Enter primary condition" />
+                  </div>
+                  <div className="col-span-2 flex justify-end space-x-2">
+                    <Button variant="outline">Cancel</Button>
+                    <Button className="bg-gradient-primary" onClick={handleAddPatient}>Register Patient</Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+            
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="border-white text-white hover:bg-white/10">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Schedule Appointment
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Schedule New Appointment</DialogTitle>
+                </DialogHeader>
+                <div className="grid grid-cols-2 gap-4 py-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Patient</label>
+                    <Input placeholder="Search patient..." />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Doctor</label>
+                    <Input placeholder="Select doctor..." />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Date</label>
+                    <Input type="date" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Time</label>
+                    <Input type="time" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Department</label>
+                    <Input placeholder="Cardiology, Neurology, etc." />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Type</label>
+                    <Input placeholder="Consultation, Follow-up, etc." />
+                  </div>
+                  <div className="col-span-2 space-y-2">
+                    <label className="text-sm font-medium">Notes</label>
+                    <Input placeholder="Additional notes..." />
+                  </div>
+                  <div className="col-span-2 flex justify-end space-x-2">
+                    <Button variant="outline">Cancel</Button>
+                    <Button className="bg-gradient-primary" onClick={handleScheduleAppointment}>Book Appointment</Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
@@ -122,19 +210,151 @@ export default function Dashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button className="w-full justify-start bg-gradient-primary hover:opacity-90" onClick={handleAddPatient}>
-                <Plus className="w-4 h-4 mr-2" />
-                Register New Patient
-              </Button>
-              <Button variant="outline" className="w-full justify-start" onClick={handleScheduleAppointment}>
-                <Calendar className="w-4 h-4 mr-2" />
-                Book Appointment
-              </Button>
-              <Button variant="outline" className="w-full justify-start" onClick={handleAddDoctor}>
-                <UserCheck className="w-4 h-4 mr-2" />
-                Add Doctor
-              </Button>
-              <Button variant="outline" className="w-full justify-start" onClick={handleViewReports}>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="w-full justify-start bg-gradient-primary hover:opacity-90">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Register New Patient
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>Register New Patient</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid grid-cols-2 gap-4 py-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">First Name</label>
+                      <Input placeholder="Enter first name" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Last Name</label>
+                      <Input placeholder="Enter last name" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Age</label>
+                      <Input type="number" placeholder="Enter age" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Gender</label>
+                      <Input placeholder="Male/Female/Other" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Phone</label>
+                      <Input placeholder="Enter phone number" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Email</label>
+                      <Input type="email" placeholder="Enter email" />
+                    </div>
+                    <div className="col-span-2 space-y-2">
+                      <label className="text-sm font-medium">Medical Condition</label>
+                      <Input placeholder="Enter primary condition" />
+                    </div>
+                    <div className="col-span-2 flex justify-end space-x-2">
+                      <Button variant="outline">Cancel</Button>
+                      <Button className="bg-gradient-primary" onClick={handleAddPatient}>Register Patient</Button>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+              
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Book Appointment
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>Schedule New Appointment</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid grid-cols-2 gap-4 py-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Patient</label>
+                      <Input placeholder="Search patient..." />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Doctor</label>
+                      <Input placeholder="Select doctor..." />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Date</label>
+                      <Input type="date" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Time</label>
+                      <Input type="time" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Department</label>
+                      <Input placeholder="Cardiology, Neurology, etc." />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Type</label>
+                      <Input placeholder="Consultation, Follow-up, etc." />
+                    </div>
+                    <div className="col-span-2 space-y-2">
+                      <label className="text-sm font-medium">Notes</label>
+                      <Input placeholder="Additional notes..." />
+                    </div>
+                    <div className="col-span-2 flex justify-end space-x-2">
+                      <Button variant="outline">Cancel</Button>
+                      <Button className="bg-gradient-primary" onClick={handleScheduleAppointment}>Book Appointment</Button>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+              
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="w-full justify-start">
+                    <UserCheck className="w-4 h-4 mr-2" />
+                    Add Doctor
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>Register New Doctor</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid grid-cols-2 gap-4 py-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Full Name</label>
+                      <Input placeholder="Dr. John Doe" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Specialization</label>
+                      <Input placeholder="Cardiology, Neurology, etc." />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Department</label>
+                      <Input placeholder="Internal Medicine" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Experience</label>
+                      <Input placeholder="10 years" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Phone</label>
+                      <Input placeholder="+1 (555) 123-4567" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Email</label>
+                      <Input type="email" placeholder="doctor@medicare.com" />
+                    </div>
+                    <div className="col-span-2 space-y-2">
+                      <label className="text-sm font-medium">Location</label>
+                      <Input placeholder="Building A, Floor 3" />
+                    </div>
+                    <div className="col-span-2 flex justify-end space-x-2">
+                      <Button variant="outline">Cancel</Button>
+                      <Button className="bg-gradient-primary" onClick={handleAddDoctor}>Register Doctor</Button>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+              
+              <Button variant="outline" className="w-full justify-start">
                 <TrendingUp className="w-4 h-4 mr-2" />
                 View Reports
               </Button>

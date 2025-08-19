@@ -355,13 +355,63 @@ export default function Records() {
                   <TableCell>{getPriorityBadge(record.priority)}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => handleViewRecord(record)}
-                      >
-                        <Eye className="w-4 h-4" />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Medical Record - {record.id}</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-4 py-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Record ID</label>
+                                <p className="text-sm">{record.id}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Patient</label>
+                                <p className="text-sm">{record.patient} ({record.patientId})</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Record Type</label>
+                                <p className="text-sm">{record.recordType}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Date</label>
+                                <p className="text-sm">{record.date}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Doctor</label>
+                                <p className="text-sm">{record.doctor}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Department</label>
+                                <p className="text-sm">{record.department}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">File Size</label>
+                                <p className="text-sm">{record.fileSize}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Priority</label>
+                                <p className="text-sm">{record.priority}</p>
+                              </div>
+                              <div className="col-span-2">
+                                <label className="text-sm font-medium text-muted-foreground">Diagnosis</label>
+                                <p className="text-sm">{record.diagnosis}</p>
+                              </div>
+                              <div className="col-span-2">
+                                <label className="text-sm font-medium text-muted-foreground">Status</label>
+                                <p className="text-sm">{record.status}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                      
                       <Button 
                         variant="outline" 
                         size="sm"
@@ -369,9 +419,53 @@ export default function Records() {
                       >
                         <Download className="w-4 h-4" />
                       </Button>
-                      <Button variant="outline" size="sm" onClick={() => handleEditRecord(record)}>
-                        <Edit className="w-4 h-4" />
-                      </Button>
+                      
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Edit Medical Record - {record.id}</DialogTitle>
+                          </DialogHeader>
+                          <div className="grid grid-cols-2 gap-4 py-4">
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Record Type</label>
+                              <Input defaultValue={record.recordType} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Date</label>
+                              <Input type="date" defaultValue={record.date} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Doctor</label>
+                              <Input defaultValue={record.doctor} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Department</label>
+                              <Input defaultValue={record.department} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Priority</label>
+                              <Input defaultValue={record.priority} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Status</label>
+                              <Input defaultValue={record.status} />
+                            </div>
+                            <div className="col-span-2 space-y-2">
+                              <label className="text-sm font-medium">Diagnosis</label>
+                              <Input defaultValue={record.diagnosis} />
+                            </div>
+                            <div className="col-span-2 flex justify-end space-x-2">
+                              <Button variant="outline">Cancel</Button>
+                              <Button className="bg-gradient-primary" onClick={() => handleEditRecord(record)}>Update Record</Button>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </TableCell>
                 </TableRow>

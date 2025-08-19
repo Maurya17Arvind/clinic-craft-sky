@@ -249,12 +249,109 @@ export default function Patients() {
                   <TableCell>{patient.doctor}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <Button variant="outline" size="sm" onClick={() => handleViewPatient(patient)}>
-                        <Eye className="w-4 h-4" />
-                      </Button>
-                      <Button variant="outline" size="sm" onClick={() => handleEditPatient(patient)}>
-                        <Edit className="w-4 h-4" />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Patient Details - {patient.name}</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-4 py-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Patient ID</label>
+                                <p className="text-sm">{patient.id}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Full Name</label>
+                                <p className="text-sm">{patient.name}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Age</label>
+                                <p className="text-sm">{patient.age} years</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Gender</label>
+                                <p className="text-sm">{patient.gender}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Phone</label>
+                                <p className="text-sm">{patient.phone}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Email</label>
+                                <p className="text-sm">{patient.email}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Last Visit</label>
+                                <p className="text-sm">{patient.lastVisit}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Status</label>
+                                <p className="text-sm">{patient.status}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Condition</label>
+                                <p className="text-sm">{patient.condition}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Assigned Doctor</label>
+                                <p className="text-sm">{patient.doctor}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                      
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Edit Patient - {patient.name}</DialogTitle>
+                          </DialogHeader>
+                          <div className="grid grid-cols-2 gap-4 py-4">
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">First Name</label>
+                              <Input defaultValue={patient.name.split(' ')[0]} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Last Name</label>
+                              <Input defaultValue={patient.name.split(' ')[1]} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Age</label>
+                              <Input type="number" defaultValue={patient.age} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Gender</label>
+                              <Input defaultValue={patient.gender} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Phone</label>
+                              <Input defaultValue={patient.phone} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Email</label>
+                              <Input type="email" defaultValue={patient.email} />
+                            </div>
+                            <div className="col-span-2 space-y-2">
+                              <label className="text-sm font-medium">Medical Condition</label>
+                              <Input defaultValue={patient.condition} />
+                            </div>
+                            <div className="col-span-2 flex justify-end space-x-2">
+                              <Button variant="outline">Cancel</Button>
+                              <Button className="bg-gradient-primary" onClick={() => handleEditPatient(patient)}>Update Patient</Button>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </TableCell>
                 </TableRow>

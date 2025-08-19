@@ -384,9 +384,62 @@ export default function Appointments() {
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
-                      <Button variant="outline" size="sm" onClick={() => handleViewAppointment(appointment)}>
-                        <Eye className="w-4 h-4" />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Appointment Details - {appointment.id}</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-4 py-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Appointment ID</label>
+                                <p className="text-sm">{appointment.id}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Patient</label>
+                                <p className="text-sm">{appointment.patient} ({appointment.patientId})</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Doctor</label>
+                                <p className="text-sm">{appointment.doctor}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Department</label>
+                                <p className="text-sm">{appointment.department}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Date</label>
+                                <p className="text-sm">{appointment.date}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Time</label>
+                                <p className="text-sm">{appointment.time}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Type</label>
+                                <p className="text-sm">{appointment.type}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Room</label>
+                                <p className="text-sm">{appointment.room}</p>
+                              </div>
+                              <div className="col-span-2">
+                                <label className="text-sm font-medium text-muted-foreground">Notes</label>
+                                <p className="text-sm">{appointment.notes}</p>
+                              </div>
+                              <div className="col-span-2">
+                                <label className="text-sm font-medium text-muted-foreground">Status</label>
+                                <p className="text-sm">{appointment.status}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </TableCell>
                 </TableRow>
