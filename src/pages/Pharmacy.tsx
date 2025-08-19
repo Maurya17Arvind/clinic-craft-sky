@@ -161,6 +161,34 @@ export default function Pharmacy() {
   const lowStockCount = medications.filter(med => med.stock <= med.minStock).length;
   const outOfStockCount = medications.filter(med => med.stock === 0).length;
 
+  const handleFilterPharmacy = () => {
+    toast({
+      title: "Filter Applied",
+      description: "Filtering pharmacy items by selected criteria.",
+    });
+  };
+
+  const handleViewMedication = (medication: any) => {
+    toast({
+      title: "View Medication",
+      description: `Opening details for ${medication.name}`,
+    });
+  };
+
+  const handleEditMedication = (medication: any) => {
+    toast({
+      title: "Edit Medication",
+      description: `Editing details for ${medication.name}`,
+    });
+  };
+
+  const handleViewPrescription = (prescription: any) => {
+    toast({
+      title: "View Prescription",
+      description: `Opening prescription details for ${prescription.patient}`,
+    });
+  };
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -303,7 +331,7 @@ export default function Pharmacy() {
                 className="pl-10"
               />
             </div>
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleFilterPharmacy}>
               <Filter className="w-4 h-4 mr-2" />
               Filter
             </Button>
@@ -351,10 +379,10 @@ export default function Pharmacy() {
                     <TableCell>{getStockStatus(medication.stock, medication.minStock)}</TableCell>
                     <TableCell>
                       <div className="flex space-x-2">
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={() => handleViewMedication(medication)}>
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={() => handleEditMedication(medication)}>
                           <Edit className="w-4 h-4" />
                         </Button>
                         {medication.stock <= medication.minStock && (
@@ -419,7 +447,7 @@ export default function Pharmacy() {
                             Dispense
                           </Button>
                         )}
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={() => handleViewPrescription(prescription)}>
                           <Eye className="w-4 h-4" />
                         </Button>
                       </div>

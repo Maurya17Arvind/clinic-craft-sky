@@ -145,6 +145,20 @@ export default function Records() {
     });
   };
 
+  const handleFilterRecords = () => {
+    toast({
+      title: "Filter Applied",
+      description: "Filtering records by selected criteria.",
+    });
+  };
+
+  const handleEditRecord = (record: any) => {
+    toast({
+      title: "Edit Record",
+      description: `Editing ${record.recordType} for ${record.patient}`,
+    });
+  };
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -279,7 +293,7 @@ export default function Records() {
                 className="pl-10"
               />
             </div>
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleFilterRecords}>
               <Filter className="w-4 h-4 mr-2" />
               Filter
             </Button>
@@ -355,7 +369,7 @@ export default function Records() {
                       >
                         <Download className="w-4 h-4" />
                       </Button>
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="sm" onClick={() => handleEditRecord(record)}>
                         <Edit className="w-4 h-4" />
                       </Button>
                     </div>

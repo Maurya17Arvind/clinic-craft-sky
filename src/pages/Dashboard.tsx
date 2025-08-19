@@ -13,8 +13,37 @@ import {
   Heart
 } from "lucide-react";
 import hospitalHero from "@/assets/hospital-hero.jpg";
+import { toast } from "@/components/ui/use-toast";
 
 export default function Dashboard() {
+  const handleAddPatient = () => {
+    toast({
+      title: "Add Patient",
+      description: "Opening patient registration form...",
+    });
+  };
+
+  const handleScheduleAppointment = () => {
+    toast({
+      title: "Schedule Appointment",
+      description: "Opening appointment booking form...",
+    });
+  };
+
+  const handleAddDoctor = () => {
+    toast({
+      title: "Add Doctor",
+      description: "Opening doctor registration form...",
+    });
+  };
+
+  const handleViewReports = () => {
+    toast({
+      title: "View Reports",
+      description: "Opening analytics dashboard...",
+    });
+  };
+
   return (
     <div className="p-6 space-y-6">
       {/* Hero Section */}
@@ -32,11 +61,11 @@ export default function Dashboard() {
             Comprehensive healthcare management at your fingertips
           </p>
           <div className="flex space-x-4">
-            <Button variant="secondary" className="bg-white text-primary hover:bg-white/90">
+            <Button variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={handleAddPatient}>
               <Plus className="w-4 h-4 mr-2" />
               Add Patient
             </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white/10">
+            <Button variant="outline" className="border-white text-white hover:bg-white/10" onClick={handleScheduleAppointment}>
               <Calendar className="w-4 h-4 mr-2" />
               Schedule Appointment
             </Button>
@@ -93,19 +122,19 @@ export default function Dashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button className="w-full justify-start bg-gradient-primary hover:opacity-90">
+              <Button className="w-full justify-start bg-gradient-primary hover:opacity-90" onClick={handleAddPatient}>
                 <Plus className="w-4 h-4 mr-2" />
                 Register New Patient
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start" onClick={handleScheduleAppointment}>
                 <Calendar className="w-4 h-4 mr-2" />
                 Book Appointment
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start" onClick={handleAddDoctor}>
                 <UserCheck className="w-4 h-4 mr-2" />
                 Add Doctor
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start" onClick={handleViewReports}>
                 <TrendingUp className="w-4 h-4 mr-2" />
                 View Reports
               </Button>

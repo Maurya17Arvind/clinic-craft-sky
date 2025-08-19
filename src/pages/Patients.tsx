@@ -20,6 +20,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Plus, Search, Filter, Edit, Eye } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
 const patients = [
   {
@@ -88,6 +89,34 @@ const getStatusBadge = (status: string) => {
 export default function Patients() {
   const [searchTerm, setSearchTerm] = useState("");
 
+  const handleAddPatient = () => {
+    toast({
+      title: "Patient Registered",
+      description: "New patient has been successfully registered.",
+    });
+  };
+
+  const handleFilterPatients = () => {
+    toast({
+      title: "Filter Applied",
+      description: "Filtering patients by selected criteria.",
+    });
+  };
+
+  const handleViewPatient = (patient: any) => {
+    toast({
+      title: "View Patient",
+      description: `Opening detailed profile for ${patient.name}`,
+    });
+  };
+
+  const handleEditPatient = (patient: any) => {
+    toast({
+      title: "Edit Patient",
+      description: `Editing profile for ${patient.name}`,
+    });
+  };
+
   const filteredPatients = patients.filter(patient =>
     patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     patient.id.toLowerCase().includes(searchTerm.toLowerCase())
@@ -143,7 +172,7 @@ export default function Patients() {
               </div>
               <div className="col-span-2 flex justify-end space-x-2">
                 <Button variant="outline">Cancel</Button>
-                <Button className="bg-gradient-primary">Register Patient</Button>
+                <Button className="bg-gradient-primary" onClick={handleAddPatient}>Register Patient</Button>
               </div>
             </div>
           </DialogContent>
@@ -163,7 +192,7 @@ export default function Patients() {
                 className="pl-10"
               />
             </div>
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleFilterPatients}>
               <Filter className="w-4 h-4 mr-2" />
               Filter
             </Button>
@@ -220,10 +249,10 @@ export default function Patients() {
                   <TableCell>{patient.doctor}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="sm" onClick={() => handleViewPatient(patient)}>
                         <Eye className="w-4 h-4" />
                       </Button>
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="sm" onClick={() => handleEditPatient(patient)}>
                         <Edit className="w-4 h-4" />
                       </Button>
                     </div>

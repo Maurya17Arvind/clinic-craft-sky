@@ -144,6 +144,20 @@ export default function Appointments() {
     });
   };
 
+  const handleFilterAppointments = () => {
+    toast({
+      title: "Filter Applied",
+      description: "Filtering appointments by selected criteria.",
+    });
+  };
+
+  const handleViewAppointment = (appointment: any) => {
+    toast({
+      title: "View Appointment",
+      description: `Opening appointment details for ${appointment.patient}`,
+    });
+  };
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -274,7 +288,7 @@ export default function Appointments() {
               onChange={(e) => setSelectedDate(e.target.value)}
               className="w-40"
             />
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleFilterAppointments}>
               <Filter className="w-4 h-4 mr-2" />
               Filter
             </Button>
@@ -370,7 +384,7 @@ export default function Appointments() {
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="sm" onClick={() => handleViewAppointment(appointment)}>
                         <Eye className="w-4 h-4" />
                       </Button>
                     </div>
