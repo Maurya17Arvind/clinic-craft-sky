@@ -185,9 +185,9 @@ export default function Pharmacy() {
       medication.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       medication.manufacturer.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesCategory = !categoryFilter || medication.category === categoryFilter;
-    const matchesStatus = !statusFilter || medication.status === statusFilter;
-    const matchesStock = !stockFilter || 
+    const matchesCategory = !categoryFilter || categoryFilter === "all" || medication.category === categoryFilter;
+    const matchesStatus = !statusFilter || statusFilter === "all" || medication.status === statusFilter;
+    const matchesStock = !stockFilter || stockFilter === "all" ||
       (stockFilter === "low" && medication.stock < 50) ||
       (stockFilter === "medium" && medication.stock >= 50 && medication.stock < 200) ||
       (stockFilter === "high" && medication.stock >= 200);
@@ -314,7 +314,7 @@ export default function Pharmacy() {
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Categories</SelectItem>
+                <SelectItem value="all">All Categories</SelectItem>
                 <SelectItem value="Antibiotics">Antibiotics</SelectItem>
                 <SelectItem value="Pain Relief">Pain Relief</SelectItem>
                 <SelectItem value="Heart Medication">Heart Medication</SelectItem>
@@ -327,7 +327,7 @@ export default function Pharmacy() {
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Status</SelectItem>
+                <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="Available">Available</SelectItem>
                 <SelectItem value="Low Stock">Low Stock</SelectItem>
                 <SelectItem value="Out of Stock">Out of Stock</SelectItem>
@@ -339,7 +339,7 @@ export default function Pharmacy() {
                 <SelectValue placeholder="Stock Level" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Levels</SelectItem>
+                <SelectItem value="all">All Levels</SelectItem>
                 <SelectItem value="low">Low (&lt;50)</SelectItem>
                 <SelectItem value="medium">Medium (50-200)</SelectItem>
                 <SelectItem value="high">High (200+)</SelectItem>

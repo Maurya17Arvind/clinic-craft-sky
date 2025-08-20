@@ -125,9 +125,9 @@ export default function Appointments() {
       appointment.doctor.toLowerCase().includes(searchTerm.toLowerCase()) ||
       appointment.department.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesStatus = !statusFilter || appointment.status === statusFilter;
-    const matchesType = !typeFilter || appointment.type === typeFilter;
-    const matchesDepartment = !departmentFilter || appointment.department === departmentFilter;
+    const matchesStatus = !statusFilter || statusFilter === "all" || appointment.status === statusFilter;
+    const matchesType = !typeFilter || typeFilter === "all" || appointment.type === typeFilter;
+    const matchesDepartment = !departmentFilter || departmentFilter === "all" || appointment.department === departmentFilter;
     
     return matchesSearch && matchesStatus && matchesType && matchesDepartment;
   });
@@ -308,7 +308,7 @@ export default function Appointments() {
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Status</SelectItem>
+                <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="Scheduled">Scheduled</SelectItem>
                 <SelectItem value="In Progress">In Progress</SelectItem>
                 <SelectItem value="Completed">Completed</SelectItem>
@@ -321,7 +321,7 @@ export default function Appointments() {
                 <SelectValue placeholder="Type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Types</SelectItem>
+                <SelectItem value="all">All Types</SelectItem>
                 <SelectItem value="Consultation">Consultation</SelectItem>
                 <SelectItem value="Follow-up">Follow-up</SelectItem>
                 <SelectItem value="Pre-Surgery">Pre-Surgery</SelectItem>
@@ -333,7 +333,7 @@ export default function Appointments() {
                 <SelectValue placeholder="Department" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Departments</SelectItem>
+                <SelectItem value="all">All Departments</SelectItem>
                 <SelectItem value="Cardiology">Cardiology</SelectItem>
                 <SelectItem value="Endocrinology">Endocrinology</SelectItem>
                 <SelectItem value="Surgery">Surgery</SelectItem>

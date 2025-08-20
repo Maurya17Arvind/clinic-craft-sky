@@ -93,7 +93,7 @@ const getTypeBadge = (type: string) => {
     case "Follow-up":
       return <Badge variant="secondary">{type}</Badge>;
     default:
-      return <Badge variant="ghost">{type}</Badge>;
+      return <Badge variant="outline">{type}</Badge>;
   }
 };
 
@@ -122,7 +122,7 @@ export default function Records() {
       record.patientId.toLowerCase().includes(searchTerm.toLowerCase()) ||
       record.diagnosis.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesType = !typeFilter || record.type === typeFilter;
+    const matchesType = !typeFilter || typeFilter === "all" || record.type === typeFilter;
     const matchesDoctor = !doctorFilter || record.doctor.toLowerCase().includes(doctorFilter.toLowerCase());
     const matchesDate = !dateFilter || record.date === dateFilter;
     
@@ -161,7 +161,7 @@ export default function Records() {
                 <SelectValue placeholder="Record Type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Types</SelectItem>
+                <SelectItem value="all">All Types</SelectItem>
                 <SelectItem value="Consultation">Consultation</SelectItem>
                 <SelectItem value="Surgery">Surgery</SelectItem>
                 <SelectItem value="Lab Results">Lab Results</SelectItem>

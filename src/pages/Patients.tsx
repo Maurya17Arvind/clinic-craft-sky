@@ -132,8 +132,8 @@ export default function Patients() {
       patient.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       patient.condition.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesStatus = !statusFilter || patient.status === statusFilter;
-    const matchesGender = !genderFilter || patient.gender === genderFilter;
+    const matchesStatus = !statusFilter || statusFilter === "all" || patient.status === statusFilter;
+    const matchesGender = !genderFilter || genderFilter === "all" || patient.gender === genderFilter;
     const matchesDoctor = !doctorFilter || patient.doctor.toLowerCase().includes(doctorFilter.toLowerCase());
     
     return matchesSearch && matchesStatus && matchesGender && matchesDoctor;
@@ -214,7 +214,7 @@ export default function Patients() {
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Status</SelectItem>
+                <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="Active">Active</SelectItem>
                 <SelectItem value="Critical">Critical</SelectItem>
                 <SelectItem value="Discharged">Discharged</SelectItem>
@@ -225,7 +225,7 @@ export default function Patients() {
                 <SelectValue placeholder="Gender" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Genders</SelectItem>
+                <SelectItem value="all">All Genders</SelectItem>
                 <SelectItem value="Male">Male</SelectItem>
                 <SelectItem value="Female">Female</SelectItem>
                 <SelectItem value="Other">Other</SelectItem>

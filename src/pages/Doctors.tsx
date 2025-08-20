@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, Search, Filter, Edit, Eye, Phone, Mail, Calendar, Users } from "lucide-react";
+import { Plus, Search, Filter, Edit, Eye, Phone, Mail, Calendar, Users, MapPin } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 
 const doctors = [
@@ -108,12 +108,13 @@ export default function Doctors() {
       doctor.specialization.toLowerCase().includes(searchTerm.toLowerCase()) ||
       doctor.id.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesDepartment = !departmentFilter || doctor.department === departmentFilter;
-    const matchesStatus = !statusFilter || doctor.status === statusFilter;
-    const matchesExperience = !experienceFilter || 
-      (experienceFilter === "junior" && doctor.experience < 5) ||
-      (experienceFilter === "senior" && doctor.experience >= 5 && doctor.experience < 10) ||
-      (experienceFilter === "expert" && doctor.experience >= 10);
+    const matchesDepartment = !departmentFilter || departmentFilter === "all" || doctor.department === departmentFilter;
+    const matchesStatus = !statusFilter || statusFilter === "all" || doctor.status === statusFilter;
+    const experienceYears = parseInt(doctor.experience.split(' ')[0]);
+    const matchesExperience = !experienceFilter || experienceFilter === "all" ||
+      (experienceFilter === "junior" && experienceYears < 5) ||
+      (experienceFilter === "senior" && experienceYears >= 5 && experienceYears < 10) ||
+      (experienceFilter === "expert" && experienceYears >= 10);
     
     return matchesSearch && matchesDepartment && matchesStatus && matchesExperience;
   });
@@ -272,7 +273,7 @@ export default function Doctors() {
                 <SelectValue placeholder="Department" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Departments</SelectItem>
+                <SelectItem value="all">All Departments</SelectItem>
                 <SelectItem value="Cardiology">Cardiology</SelectItem>
                 <SelectItem value="Endocrinology">Endocrinology</SelectItem>
                 <SelectItem value="Surgery">Surgery</SelectItem>
@@ -285,7 +286,7 @@ export default function Doctors() {
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Status</SelectItem>
+                <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="Available">Available</SelectItem>
                 <SelectItem value="Busy">Busy</SelectItem>
                 <SelectItem value="Off Duty">Off Duty</SelectItem>
@@ -296,7 +297,7 @@ export default function Doctors() {
                 <SelectValue placeholder="Experience" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Experience</SelectItem>
+                <SelectItem value="all">All Experience</SelectItem>
                 <SelectItem value="junior">Junior (&lt;5 years)</SelectItem>
                 <SelectItem value="senior">Senior (5-10 years)</SelectItem>
                 <SelectItem value="expert">Expert (10+ years)</SelectItem>
