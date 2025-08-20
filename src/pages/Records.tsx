@@ -15,6 +15,7 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -233,12 +234,148 @@ export default function Records() {
                   <TableCell>{record.diagnosis}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <Button variant="outline" size="sm" onClick={() => handleViewRecord(record)}>
-                        <Eye className="w-4 h-4" />
-                      </Button>
-                      <Button variant="outline" size="sm" onClick={() => handleEditRecord(record)}>
-                        <Edit className="w-4 h-4" />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Medical Record Details</DialogTitle>
+                            <DialogDescription>
+                              Complete medical record information for {record.patientName}
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Record ID</label>
+                                <p className="font-medium">{record.id}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Patient ID</label>
+                                <p className="font-medium">{record.patientId}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Patient Name</label>
+                                <p className="font-medium">{record.patientName}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Doctor</label>
+                                <p className="font-medium">{record.doctor}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Department</label>
+                                <p className="font-medium">{record.department}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Date</label>
+                                <p className="font-medium">{record.date}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Type</label>
+                                <div>{getTypeBadge(record.type)}</div>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-muted-foreground">Status</label>
+                                <Badge variant="secondary">{record.status}</Badge>
+                              </div>
+                            </div>
+                            <div>
+                              <label className="text-sm font-medium text-muted-foreground">Diagnosis</label>
+                              <p className="font-medium">{record.diagnosis}</p>
+                            </div>
+                            <div>
+                              <label className="text-sm font-medium text-muted-foreground">Notes</label>
+                              <p className="text-sm text-muted-foreground">{record.notes}</p>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Edit Medical Record</DialogTitle>
+                            <DialogDescription>
+                              Update medical record information for {record.patientName}
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <label className="text-sm font-medium">Record ID</label>
+                                <Input value={record.id} disabled />
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Patient ID</label>
+                                <Input value={record.patientId} disabled />
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Patient Name</label>
+                                <Input value={record.patientName} />
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Doctor</label>
+                                <Input value={record.doctor} />
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Department</label>
+                                <Input value={record.department} />
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Date</label>
+                                <Input type="date" value={record.date} />
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Type</label>
+                                <Select defaultValue={record.type}>
+                                  <SelectTrigger>
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="Consultation">Consultation</SelectItem>
+                                    <SelectItem value="Surgery">Surgery</SelectItem>
+                                    <SelectItem value="Lab Results">Lab Results</SelectItem>
+                                    <SelectItem value="Emergency">Emergency</SelectItem>
+                                    <SelectItem value="Follow-up">Follow-up</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Status</label>
+                                <Select defaultValue={record.status}>
+                                  <SelectTrigger>
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="Completed">Completed</SelectItem>
+                                    <SelectItem value="In Progress">In Progress</SelectItem>
+                                    <SelectItem value="Pending">Pending</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            </div>
+                            <div>
+                              <label className="text-sm font-medium">Diagnosis</label>
+                              <Input value={record.diagnosis} />
+                            </div>
+                            <div>
+                              <label className="text-sm font-medium">Notes</label>
+                              <Input value={record.notes} />
+                            </div>
+                            <div className="flex justify-end space-x-2 pt-4">
+                              <Button variant="outline">Cancel</Button>
+                              <Button>Save Changes</Button>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </TableCell>
                 </TableRow>
