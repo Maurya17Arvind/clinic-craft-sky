@@ -321,13 +321,60 @@ export default function Doctors() {
                   <TableCell>{doctor.patients}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => handleViewProfile(doctor)}
-                      >
-                        <Eye className="w-4 h-4" />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Doctor Profile - {doctor.name}</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-4 py-4">
+                            <div className="flex items-center space-x-4">
+                              <Avatar className="w-16 h-16">
+                                <AvatarImage src={`/api/placeholder/64/64`} alt={doctor.name} />
+                                <AvatarFallback className="bg-gradient-primary text-white">
+                                  {doctor.name.split(' ').map(n => n[1] || n[0]).join('').slice(0, 2)}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div>
+                                <h3 className="text-xl font-semibold">{doctor.name}</h3>
+                                <p className="text-muted-foreground">{doctor.specialization}</p>
+                                <div className="mt-2">{getStatusBadge(doctor.status)}</div>
+                              </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <label className="text-sm font-medium">Department</label>
+                                <p className="text-sm text-muted-foreground">{doctor.department}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Experience</label>
+                                <p className="text-sm text-muted-foreground">{doctor.experience}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Phone</label>
+                                <p className="text-sm text-muted-foreground">{doctor.phone}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Email</label>
+                                <p className="text-sm text-muted-foreground">{doctor.email}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Location</label>
+                                <p className="text-sm text-muted-foreground">{doctor.location}</p>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Current Patients</label>
+                                <p className="text-sm text-muted-foreground">{doctor.patients}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                      
                       <Button 
                         variant="outline" 
                         size="sm"
@@ -335,9 +382,60 @@ export default function Doctors() {
                       >
                         <Phone className="w-4 h-4" />
                       </Button>
-                      <Button variant="outline" size="sm">
-                        <Edit className="w-4 h-4" />
-                      </Button>
+                      
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Edit Doctor - {doctor.name}</DialogTitle>
+                          </DialogHeader>
+                          <div className="grid grid-cols-2 gap-4 py-4">
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Full Name</label>
+                              <Input defaultValue={doctor.name} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Specialization</label>
+                              <Input defaultValue={doctor.specialization} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Department</label>
+                              <Input defaultValue={doctor.department} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Experience</label>
+                              <Input defaultValue={doctor.experience} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Phone</label>
+                              <Input defaultValue={doctor.phone} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Email</label>
+                              <Input defaultValue={doctor.email} />
+                            </div>
+                            <div className="col-span-2 space-y-2">
+                              <label className="text-sm font-medium">Location</label>
+                              <Input defaultValue={doctor.location} />
+                            </div>
+                            <div className="col-span-2 flex justify-end space-x-2">
+                              <Button variant="outline">Cancel</Button>
+                              <Button className="bg-gradient-primary" onClick={() => {
+                                toast({
+                                  title: "Doctor Updated",
+                                  description: `${doctor.name}'s information has been updated successfully.`,
+                                });
+                              }}>
+                                Update Doctor
+                              </Button>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </TableCell>
                 </TableRow>

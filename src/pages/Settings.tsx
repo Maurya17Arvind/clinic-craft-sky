@@ -300,15 +300,42 @@ export default function Settings() {
               </div>
 
               <div className="space-y-2">
-                <Button className="w-full justify-start" variant="outline">
+                <Button 
+                  className="w-full justify-start" 
+                  variant="outline"
+                  onClick={() => {
+                    toast({
+                      title: "User Roles",
+                      description: "Opening user role management interface.",
+                    });
+                  }}
+                >
                   <Users className="w-4 h-4 mr-2" />
                   Manage User Roles
                 </Button>
-                <Button className="w-full justify-start" variant="outline">
+                <Button 
+                  className="w-full justify-start" 
+                  variant="outline"
+                  onClick={() => {
+                    toast({
+                      title: "Permissions",
+                      description: "Opening permission settings panel.",
+                    });
+                  }}
+                >
                   <Shield className="w-4 h-4 mr-2" />
                   Permission Settings
                 </Button>
-                <Button className="w-full justify-start" variant="outline">
+                <Button 
+                  className="w-full justify-start" 
+                  variant="outline"
+                  onClick={() => {
+                    toast({
+                      title: "Activity Logs",
+                      description: "Loading user activity logs.",
+                    });
+                  }}
+                >
                   <Activity className="w-4 h-4 mr-2" />
                   User Activity Logs
                 </Button>
