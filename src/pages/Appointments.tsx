@@ -19,6 +19,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, Search, Filter, Edit, Eye, Calendar, Clock, User, MapPin } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 
@@ -109,12 +116,21 @@ const getTypeBadge = (type: string) => {
 export default function Appointments() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDate, setSelectedDate] = useState("2024-01-20");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("");
 
-  const filteredAppointments = appointments.filter(appointment =>
-    appointment.patient.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    appointment.doctor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    appointment.department.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredAppointments = appointments.filter(appointment => {
+    const matchesSearch = appointment.patient.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      appointment.doctor.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      appointment.department.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesStatus = !statusFilter || appointment.status === statusFilter;
+    const matchesType = !typeFilter || appointment.type === typeFilter;
+    const matchesDepartment = !departmentFilter || appointment.department === departmentFilter;
+    
+    return matchesSearch && matchesStatus && matchesType && matchesDepartment;
+  });
 
   const handleBookAppointment = () => {
     toast({
@@ -269,11 +285,11 @@ export default function Appointments() {
         </Card>
       </div>
 
-      {/* Filters */}
+      {/* Enhanced Filters */}
       <Card className="shadow-card">
         <CardContent className="p-6">
-          <div className="flex space-x-4">
-            <div className="flex-1 relative">
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+            <div className="md:col-span-2 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
                 placeholder="Search appointments by patient, doctor, or department..."
@@ -286,12 +302,44 @@ export default function Appointments() {
               type="date"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="w-40"
             />
-            <Button variant="outline" onClick={handleFilterAppointments}>
-              <Filter className="w-4 h-4 mr-2" />
-              Filter
-            </Button>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger>
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Status</SelectItem>
+                <SelectItem value="Scheduled">Scheduled</SelectItem>
+                <SelectItem value="In Progress">In Progress</SelectItem>
+                <SelectItem value="Completed">Completed</SelectItem>
+                <SelectItem value="Urgent">Urgent</SelectItem>
+                <SelectItem value="Cancelled">Cancelled</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={typeFilter} onValueChange={setTypeFilter}>
+              <SelectTrigger>
+                <SelectValue placeholder="Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Types</SelectItem>
+                <SelectItem value="Consultation">Consultation</SelectItem>
+                <SelectItem value="Follow-up">Follow-up</SelectItem>
+                <SelectItem value="Pre-Surgery">Pre-Surgery</SelectItem>
+                <SelectItem value="Emergency">Emergency</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
+              <SelectTrigger>
+                <SelectValue placeholder="Department" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Departments</SelectItem>
+                <SelectItem value="Cardiology">Cardiology</SelectItem>
+                <SelectItem value="Endocrinology">Endocrinology</SelectItem>
+                <SelectItem value="Surgery">Surgery</SelectItem>
+                <SelectItem value="Emergency">Emergency</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
@@ -377,13 +425,73 @@ export default function Appointments() {
                           Complete
                         </Button>
                       )}
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => handleReschedule(appointment)}
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Edit Appointment - {appointment.id}</DialogTitle>
+                          </DialogHeader>
+                          <div className="grid grid-cols-2 gap-4 py-4">
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Patient</label>
+                              <Input defaultValue={appointment.patient} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Doctor</label>
+                              <Input defaultValue={appointment.doctor} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Date</label>
+                              <Input type="date" defaultValue={appointment.date} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Time</label>
+                              <Input type="time" defaultValue={appointment.time} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Department</label>
+                              <Input defaultValue={appointment.department} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Type</label>
+                              <Input defaultValue={appointment.type} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Room</label>
+                              <Input defaultValue={appointment.room} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Status</label>
+                              <Select defaultValue={appointment.status}>
+                                <SelectTrigger>
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Scheduled">Scheduled</SelectItem>
+                                  <SelectItem value="In Progress">In Progress</SelectItem>
+                                  <SelectItem value="Completed">Completed</SelectItem>
+                                  <SelectItem value="Urgent">Urgent</SelectItem>
+                                  <SelectItem value="Cancelled">Cancelled</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="col-span-2 space-y-2">
+                              <label className="text-sm font-medium">Notes</label>
+                              <Input defaultValue={appointment.notes} />
+                            </div>
+                            <div className="col-span-2 flex justify-end space-x-2">
+                              <Button variant="outline">Cancel</Button>
+                              <Button className="bg-gradient-primary" onClick={() => handleReschedule(appointment)}>
+                                Update Appointment
+                              </Button>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button variant="outline" size="sm">

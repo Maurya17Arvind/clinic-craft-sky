@@ -19,7 +19,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus, Search, Filter, Edit, Eye, Phone, Mail, MapPin } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Plus, Search, Filter, Edit, Eye, Phone, Mail, Calendar, Users } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 
 const doctors = [
@@ -92,12 +99,24 @@ const getStatusBadge = (status: string) => {
 
 export default function Doctors() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [experienceFilter, setExperienceFilter] = useState("");
 
-  const filteredDoctors = doctors.filter(doctor =>
-    doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    doctor.specialization.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    doctor.department.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredDoctors = doctors.filter(doctor => {
+    const matchesSearch = doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doctor.specialization.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doctor.id.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesDepartment = !departmentFilter || doctor.department === departmentFilter;
+    const matchesStatus = !statusFilter || doctor.status === statusFilter;
+    const matchesExperience = !experienceFilter || 
+      (experienceFilter === "junior" && doctor.experience < 5) ||
+      (experienceFilter === "senior" && doctor.experience >= 5 && doctor.experience < 10) ||
+      (experienceFilter === "expert" && doctor.experience >= 10);
+    
+    return matchesSearch && matchesDepartment && matchesStatus && matchesExperience;
+  });
 
   const handleAddDoctor = () => {
     toast({
@@ -235,23 +254,54 @@ export default function Doctors() {
         </Card>
       </div>
 
-      {/* Filters */}
+      {/* Enhanced Filters */}
       <Card className="shadow-card">
         <CardContent className="p-6">
-          <div className="flex space-x-4">
-            <div className="flex-1 relative">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className="md:col-span-2 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
-                placeholder="Search doctors by name, specialization, or department..."
+                placeholder="Search doctors by name, specialization, or ID..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
               />
             </div>
-            <Button variant="outline">
-              <Filter className="w-4 h-4 mr-2" />
-              Filter
-            </Button>
+            <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
+              <SelectTrigger>
+                <SelectValue placeholder="Department" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Departments</SelectItem>
+                <SelectItem value="Cardiology">Cardiology</SelectItem>
+                <SelectItem value="Endocrinology">Endocrinology</SelectItem>
+                <SelectItem value="Surgery">Surgery</SelectItem>
+                <SelectItem value="Emergency">Emergency</SelectItem>
+                <SelectItem value="Pediatrics">Pediatrics</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger>
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Status</SelectItem>
+                <SelectItem value="Available">Available</SelectItem>
+                <SelectItem value="Busy">Busy</SelectItem>
+                <SelectItem value="Off Duty">Off Duty</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={experienceFilter} onValueChange={setExperienceFilter}>
+              <SelectTrigger>
+                <SelectValue placeholder="Experience" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Experience</SelectItem>
+                <SelectItem value="junior">Junior (&lt;5 years)</SelectItem>
+                <SelectItem value="senior">Senior (5-10 years)</SelectItem>
+                <SelectItem value="expert">Expert (10+ years)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>

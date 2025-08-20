@@ -19,6 +19,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, Search, Filter, Edit, Eye } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 
@@ -88,6 +95,9 @@ const getStatusBadge = (status: string) => {
 
 export default function Patients() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [genderFilter, setGenderFilter] = useState("");
+  const [doctorFilter, setDoctorFilter] = useState("");
 
   const handleAddPatient = () => {
     toast({
@@ -117,10 +127,17 @@ export default function Patients() {
     });
   };
 
-  const filteredPatients = patients.filter(patient =>
-    patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    patient.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredPatients = patients.filter(patient => {
+    const matchesSearch = patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient.condition.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesStatus = !statusFilter || patient.status === statusFilter;
+    const matchesGender = !genderFilter || patient.gender === genderFilter;
+    const matchesDoctor = !doctorFilter || patient.doctor.toLowerCase().includes(doctorFilter.toLowerCase());
+    
+    return matchesSearch && matchesStatus && matchesGender && matchesDoctor;
+  });
 
   return (
     <div className="p-6 space-y-6">
@@ -179,23 +196,46 @@ export default function Patients() {
         </Dialog>
       </div>
 
-      {/* Filters */}
+      {/* Enhanced Filters */}
       <Card className="shadow-card">
         <CardContent className="p-6">
-          <div className="flex space-x-4">
-            <div className="flex-1 relative">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className="md:col-span-2 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
-                placeholder="Search patients by name or ID..."
+                placeholder="Search patients by name, ID, or condition..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
               />
             </div>
-            <Button variant="outline" onClick={handleFilterPatients}>
-              <Filter className="w-4 h-4 mr-2" />
-              Filter
-            </Button>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger>
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Status</SelectItem>
+                <SelectItem value="Active">Active</SelectItem>
+                <SelectItem value="Critical">Critical</SelectItem>
+                <SelectItem value="Discharged">Discharged</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={genderFilter} onValueChange={setGenderFilter}>
+              <SelectTrigger>
+                <SelectValue placeholder="Gender" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Genders</SelectItem>
+                <SelectItem value="Male">Male</SelectItem>
+                <SelectItem value="Female">Female</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+              </SelectContent>
+            </Select>
+            <Input
+              placeholder="Filter by doctor..."
+              value={doctorFilter}
+              onChange={(e) => setDoctorFilter(e.target.value)}
+            />
           </div>
         </CardContent>
       </Card>
