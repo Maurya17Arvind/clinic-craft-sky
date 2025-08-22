@@ -15,6 +15,7 @@ import {
   Pill
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
 const navigationItems = [
@@ -68,28 +69,30 @@ export function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-2">
-        {navigationItems.map((item) => {
-          const Icon = item.icon;
-          const active = isActive(item.url);
-          
-          return (
-            <NavLink
-              key={item.title}
-              to={item.url}
-              className={cn(
-                "flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors",
-                active
-                  ? "bg-white text-primary font-medium shadow-sm"
-                  : "text-white/90 hover:bg-white/10 hover:text-white"
-              )}
-            >
-              <Icon className="w-5 h-5 flex-shrink-0" />
-              {!collapsed && <span className="text-sm">{item.title}</span>}
-            </NavLink>
-          );
-        })}
-      </nav>
+      <ScrollArea className="flex-1">
+        <nav className="p-4 space-y-2">
+          {navigationItems.map((item) => {
+            const Icon = item.icon;
+            const active = isActive(item.url);
+            
+            return (
+              <NavLink
+                key={item.title}
+                to={item.url}
+                className={cn(
+                  "flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors",
+                  active
+                    ? "bg-white text-primary font-medium shadow-sm"
+                    : "text-white/90 hover:bg-white/10 hover:text-white"
+                )}
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                {!collapsed && <span className="text-sm">{item.title}</span>}
+              </NavLink>
+            );
+          })}
+        </nav>
+      </ScrollArea>
 
       {/* Footer */}
       <div className="p-4 border-t border-border/20">
