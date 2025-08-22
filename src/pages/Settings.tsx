@@ -92,11 +92,14 @@ export default function Settings() {
       </div>
 
       <Tabs defaultValue="general" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
           <TabsTrigger value="users">Users</TabsTrigger>
+          <TabsTrigger value="roles">User Roles</TabsTrigger>
+          <TabsTrigger value="permissions">Permissions</TabsTrigger>
+          <TabsTrigger value="activity">Activity</TabsTrigger>
           <TabsTrigger value="system">System</TabsTrigger>
         </TabsList>
 
@@ -339,6 +342,305 @@ export default function Settings() {
                   <Activity className="w-4 h-4 mr-2" />
                   User Activity Logs
                 </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* User Roles */}
+        <TabsContent value="roles" className="space-y-6">
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Users className="w-5 h-5 mr-2" />
+                User Role Management
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h3 className="font-medium">Current User Roles</h3>
+                <Button className="bg-gradient-primary">
+                  Add New Role
+                </Button>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="border rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-3">
+                      <Badge className="bg-primary text-white">Administrator</Badge>
+                      <span className="font-medium">System Administrator</span>
+                    </div>
+                    <div className="flex space-x-2">
+                      <Button variant="outline" size="sm">Edit</Button>
+                      <Button variant="outline" size="sm">Delete</Button>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Full system access including user management, settings, and data administration.</p>
+                  <div className="mt-2">
+                    <span className="text-sm font-medium">Users: </span>
+                    <span className="text-sm">5 assigned</span>
+                  </div>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-3">
+                      <Badge className="bg-success text-white">Doctor</Badge>
+                      <span className="font-medium">Medical Doctor</span>
+                    </div>
+                    <div className="flex space-x-2">
+                      <Button variant="outline" size="sm">Edit</Button>
+                      <Button variant="outline" size="sm">Delete</Button>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Access to patient records, medical procedures, and prescription management.</p>
+                  <div className="mt-2">
+                    <span className="text-sm font-medium">Users: </span>
+                    <span className="text-sm">156 assigned</span>
+                  </div>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-3">
+                      <Badge className="bg-medical-accent text-white">Nurse</Badge>
+                      <span className="font-medium">Registered Nurse</span>
+                    </div>
+                    <div className="flex space-x-2">
+                      <Button variant="outline" size="sm">Edit</Button>
+                      <Button variant="outline" size="sm">Delete</Button>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Patient care access, basic medical records, and nursing documentation.</p>
+                  <div className="mt-2">
+                    <span className="text-sm font-medium">Users: </span>
+                    <span className="text-sm">89 assigned</span>
+                  </div>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-3">
+                      <Badge className="bg-secondary text-white">Receptionist</Badge>
+                      <span className="font-medium">Front Desk Staff</span>
+                    </div>
+                    <div className="flex space-x-2">
+                      <Button variant="outline" size="sm">Edit</Button>
+                      <Button variant="outline" size="sm">Delete</Button>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Appointment scheduling, patient registration, and basic information access.</p>
+                  <div className="mt-2">
+                    <span className="text-sm font-medium">Users: </span>
+                    <span className="text-sm">25 assigned</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Permissions */}
+        <TabsContent value="permissions" className="space-y-6">
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Shield className="w-5 h-5 mr-2" />
+                Permission Settings
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="font-medium mb-4">Module Permissions</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">Patient Management</p>
+                        <p className="text-sm text-muted-foreground">View, create, edit patient records</p>
+                      </div>
+                      <div className="flex space-x-2">
+                        <Switch defaultChecked />
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">Appointment Scheduling</p>
+                        <p className="text-sm text-muted-foreground">Manage patient appointments</p>
+                      </div>
+                      <Switch defaultChecked />
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">Medical Records</p>
+                        <p className="text-sm text-muted-foreground">Access to medical history and documents</p>
+                      </div>
+                      <Switch defaultChecked />
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">Prescription Management</p>
+                        <p className="text-sm text-muted-foreground">Create and manage prescriptions</p>
+                      </div>
+                      <Switch />
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">Billing & Finance</p>
+                        <p className="text-sm text-muted-foreground">Access financial data and billing</p>
+                      </div>
+                      <Switch />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-medium mb-4">Administrative Permissions</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">User Management</p>
+                        <p className="text-sm text-muted-foreground">Create, edit, and delete users</p>
+                      </div>
+                      <Switch />
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">System Settings</p>
+                        <p className="text-sm text-muted-foreground">Modify system configuration</p>
+                      </div>
+                      <Switch />
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">Reports & Analytics</p>
+                        <p className="text-sm text-muted-foreground">Generate system reports</p>
+                      </div>
+                      <Switch defaultChecked />
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">Data Export</p>
+                        <p className="text-sm text-muted-foreground">Export system data</p>
+                      </div>
+                      <Switch />
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">Audit Logs</p>
+                        <p className="text-sm text-muted-foreground">View system audit trails</p>
+                      </div>
+                      <Switch />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Button className="bg-gradient-primary">
+                <Save className="w-4 h-4 mr-2" />
+                Save Permissions
+              </Button>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Activity */}
+        <TabsContent value="activity" className="space-y-6">
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Activity className="w-5 h-5 mr-2" />
+                User Activity Logs
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Input placeholder="Search activities..." className="flex-1" />
+                <Button variant="outline">
+                  <Download className="w-4 h-4 mr-2" />
+                  Export Logs
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-2 h-2 bg-success rounded-full"></div>
+                    <div>
+                      <p className="font-medium">Dr. Sarah Johnson logged in</p>
+                      <p className="text-sm text-muted-foreground">IP: 192.168.1.100 • User Agent: Chrome 120.0</p>
+                    </div>
+                  </div>
+                  <div className="text-sm text-muted-foreground">2 minutes ago</div>
+                </div>
+
+                <div className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <div>
+                      <p className="font-medium">Patient record updated by Nurse Mary</p>
+                      <p className="text-sm text-muted-foreground">Patient ID: PAT-2024-001 • Module: Medical Records</p>
+                    </div>
+                  </div>
+                  <div className="text-sm text-muted-foreground">15 minutes ago</div>
+                </div>
+
+                <div className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-2 h-2 bg-medical-accent rounded-full"></div>
+                    <div>
+                      <p className="font-medium">New appointment scheduled</p>
+                      <p className="text-sm text-muted-foreground">Scheduled by Front Desk • Patient: John Smith</p>
+                    </div>
+                  </div>
+                  <div className="text-sm text-muted-foreground">1 hour ago</div>
+                </div>
+
+                <div className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-2 h-2 bg-warning rounded-full"></div>
+                    <div>
+                      <p className="font-medium">Failed login attempt</p>
+                      <p className="text-sm text-muted-foreground">IP: 192.168.1.50 • Attempted user: admin</p>
+                    </div>
+                  </div>
+                  <div className="text-sm text-muted-foreground">2 hours ago</div>
+                </div>
+
+                <div className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-2 h-2 bg-secondary rounded-full"></div>
+                    <div>
+                      <p className="font-medium">System backup completed</p>
+                      <p className="text-sm text-muted-foreground">Size: 2.8 GB • Duration: 45 minutes</p>
+                    </div>
+                  </div>
+                  <div className="text-sm text-muted-foreground">3 hours ago</div>
+                </div>
+
+                <div className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <div>
+                      <p className="font-medium">Prescription created by Dr. Michael Brown</p>
+                      <p className="text-sm text-muted-foreground">Patient: Jane Doe • Medication: Amoxicillin</p>
+                    </div>
+                  </div>
+                  <div className="text-sm text-muted-foreground">4 hours ago</div>
+                </div>
+              </div>
+
+              <div className="flex justify-center">
+                <Button variant="outline">Load More Activities</Button>
               </div>
             </CardContent>
           </Card>
