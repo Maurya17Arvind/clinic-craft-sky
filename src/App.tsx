@@ -23,21 +23,25 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/patients" element={<Patients />} />
-            <Route path="/doctors" element={<Doctors />} />
-            <Route path="/appointments" element={<Appointments />} />
-            <Route path="/records" element={<Records />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/pharmacy" element={<Pharmacy />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/login" element={<Login />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/*" element={
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/patients" element={<Patients />} />
+                <Route path="/doctors" element={<Doctors />} />
+                <Route path="/appointments" element={<Appointments />} />
+                <Route path="/records" element={<Records />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/pharmacy" element={<Pharmacy />} />
+                <Route path="/settings" element={<Settings />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Layout>
+          } />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

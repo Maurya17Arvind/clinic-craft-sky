@@ -6,6 +6,11 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { UserForm } from "@/components/forms/UserForm";
+import UserRoles from "./UserRoles";
+import PermissionSettings from "./PermissionSettings";
+import UserActivity from "./UserActivity";
 import {
   Settings as SettingsIcon,
   User,
@@ -17,9 +22,10 @@ import {
   Save,
   Upload,
   Download,
-  AlertTriangle
+  AlertTriangle,
+  Plus
 } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 export default function Settings() {
   const [notifications, setNotifications] = useState({
@@ -35,6 +41,9 @@ export default function Settings() {
     dataRetention: "5",
     sessionTimeout: "30"
   });
+
+  const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
+  const [activeUsersTab, setActiveUsersTab] = useState("overview");
 
   const handleSaveProfile = () => {
     toast({
@@ -92,14 +101,11 @@ export default function Settings() {
       </div>
 
       <Tabs defaultValue="general" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-7">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
           <TabsTrigger value="users">Users</TabsTrigger>
-          <TabsTrigger value="roles">User Roles</TabsTrigger>
-          <TabsTrigger value="permissions">Permissions</TabsTrigger>
-          <TabsTrigger value="activity">Activity</TabsTrigger>
           <TabsTrigger value="system">System</TabsTrigger>
         </TabsList>
 
@@ -276,374 +282,134 @@ export default function Settings() {
 
         {/* Users */}
         <TabsContent value="users" className="space-y-6">
-          <Card className="shadow-card">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Users className="w-5 h-5 mr-2" />
-                User Management
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="p-4 border rounded-lg">
-                  <h3 className="font-semibold">Administrators</h3>
-                  <p className="text-2xl font-bold text-primary">5</p>
-                  <p className="text-sm text-muted-foreground">Full system access</p>
-                </div>
-                <div className="p-4 border rounded-lg">
-                  <h3 className="font-semibold">Doctors</h3>
-                  <p className="text-2xl font-bold text-success">156</p>
-                  <p className="text-sm text-muted-foreground">Medical staff access</p>
-                </div>
-                <div className="p-4 border rounded-lg">
-                  <h3 className="font-semibold">Nurses</h3>
-                  <p className="text-2xl font-bold text-medical-accent">89</p>
-                  <p className="text-sm text-muted-foreground">Nursing staff access</p>
-                </div>
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-foreground">User Management</h2>
+              <p className="text-muted-foreground">Manage users, roles, permissions, and activity logs</p>
+            </div>
+            <Button onClick={() => setIsUserDialogOpen(true)} className="bg-gradient-primary">
+              <Plus className="w-4 h-4 mr-2" />
+              Add New User
+            </Button>
+          </div>
+
+          <Tabs value={activeUsersTab} onValueChange={setActiveUsersTab}>
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="roles">User Roles</TabsTrigger>
+              <TabsTrigger value="permissions">Permissions</TabsTrigger>
+              <TabsTrigger value="activity">Activity Logs</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview" className="mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <Card className="shadow-card">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">Administrators</p>
+                        <p className="text-3xl font-bold text-primary">5</p>
+                      </div>
+                      <Users className="h-8 w-8 text-primary" />
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-2">Full system access</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="shadow-card">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">Medical Staff</p>
+                        <p className="text-3xl font-bold text-success">245</p>
+                      </div>
+                      <Activity className="h-8 w-8 text-success" />
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-2">Doctors and nurses</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="shadow-card">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">Support Staff</p>
+                        <p className="text-3xl font-bold text-medical-accent">43</p>
+                      </div>
+                      <Shield className="h-8 w-8 text-medical-accent" />
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-2">Administrative support</p>
+                  </CardContent>
+                </Card>
               </div>
 
-              <div className="space-y-2">
-                <Button 
-                  className="w-full justify-start" 
-                  variant="outline"
-                  onClick={() => {
-                    toast({
-                      title: "User Roles",
-                      description: "Opening user role management interface.",
-                    });
-                  }}
-                >
-                  <Users className="w-4 h-4 mr-2" />
-                  Manage User Roles
-                </Button>
-                <Button 
-                  className="w-full justify-start" 
-                  variant="outline"
-                  onClick={() => {
-                    toast({
-                      title: "Permissions",
-                      description: "Opening permission settings panel.",
-                    });
-                  }}
-                >
-                  <Shield className="w-4 h-4 mr-2" />
-                  Permission Settings
-                </Button>
-                <Button 
-                  className="w-full justify-start" 
-                  variant="outline"
-                  onClick={() => {
-                    toast({
-                      title: "Activity Logs",
-                      description: "Loading user activity logs.",
-                    });
-                  }}
-                >
-                  <Activity className="w-4 h-4 mr-2" />
-                  User Activity Logs
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* User Roles */}
-        <TabsContent value="roles" className="space-y-6">
-          <Card className="shadow-card">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Users className="w-5 h-5 mr-2" />
-                User Role Management
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h3 className="font-medium">Current User Roles</h3>
-                <Button className="bg-gradient-primary">
-                  Add New Role
-                </Button>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="border rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center space-x-3">
-                      <Badge className="bg-primary text-white">Administrator</Badge>
-                      <span className="font-medium">System Administrator</span>
-                    </div>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="sm">Edit</Button>
-                      <Button variant="outline" size="sm">Delete</Button>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Full system access including user management, settings, and data administration.</p>
-                  <div className="mt-2">
-                    <span className="text-sm font-medium">Users: </span>
-                    <span className="text-sm">5 assigned</span>
-                  </div>
-                </div>
-
-                <div className="border rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center space-x-3">
-                      <Badge className="bg-success text-white">Doctor</Badge>
-                      <span className="font-medium">Medical Doctor</span>
-                    </div>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="sm">Edit</Button>
-                      <Button variant="outline" size="sm">Delete</Button>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Access to patient records, medical procedures, and prescription management.</p>
-                  <div className="mt-2">
-                    <span className="text-sm font-medium">Users: </span>
-                    <span className="text-sm">156 assigned</span>
-                  </div>
-                </div>
-
-                <div className="border rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center space-x-3">
-                      <Badge className="bg-medical-accent text-white">Nurse</Badge>
-                      <span className="font-medium">Registered Nurse</span>
-                    </div>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="sm">Edit</Button>
-                      <Button variant="outline" size="sm">Delete</Button>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Patient care access, basic medical records, and nursing documentation.</p>
-                  <div className="mt-2">
-                    <span className="text-sm font-medium">Users: </span>
-                    <span className="text-sm">89 assigned</span>
-                  </div>
-                </div>
-
-                <div className="border rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center space-x-3">
-                      <Badge className="bg-secondary text-white">Receptionist</Badge>
-                      <span className="font-medium">Front Desk Staff</span>
-                    </div>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="sm">Edit</Button>
-                      <Button variant="outline" size="sm">Delete</Button>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Appointment scheduling, patient registration, and basic information access.</p>
-                  <div className="mt-2">
-                    <span className="text-sm font-medium">Users: </span>
-                    <span className="text-sm">25 assigned</span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Permissions */}
-        <TabsContent value="permissions" className="space-y-6">
-          <Card className="shadow-card">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Shield className="w-5 h-5 mr-2" />
-                Permission Settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="font-medium mb-4">Module Permissions</h3>
+              <Card className="shadow-card">
+                <CardHeader>
+                  <CardTitle>Recent User Activities</CardTitle>
+                </CardHeader>
+                <CardContent>
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">Patient Management</p>
-                        <p className="text-sm text-muted-foreground">View, create, edit patient records</p>
+                    <div className="flex items-center justify-between p-3 border rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <Avatar className="h-8 w-8">
+                          <AvatarFallback>DJ</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-medium">Dr. Johnson</p>
+                          <p className="text-sm text-muted-foreground">Logged in at 09:30 AM</p>
+                        </div>
                       </div>
-                      <div className="flex space-x-2">
-                        <Switch defaultChecked />
-                      </div>
+                      <Badge variant="outline">Online</Badge>
                     </div>
                     
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">Appointment Scheduling</p>
-                        <p className="text-sm text-muted-foreground">Manage patient appointments</p>
+                    <div className="flex items-center justify-between p-3 border rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <Avatar className="h-8 w-8">
+                          <AvatarFallback>NM</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-medium">Nurse Mary</p>
+                          <p className="text-sm text-muted-foreground">Updated patient record</p>
+                        </div>
                       </div>
-                      <Switch defaultChecked />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">Medical Records</p>
-                        <p className="text-sm text-muted-foreground">Access to medical history and documents</p>
-                      </div>
-                      <Switch defaultChecked />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">Prescription Management</p>
-                        <p className="text-sm text-muted-foreground">Create and manage prescriptions</p>
-                      </div>
-                      <Switch />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">Billing & Finance</p>
-                        <p className="text-sm text-muted-foreground">Access financial data and billing</p>
-                      </div>
-                      <Switch />
+                      <Badge className="bg-success text-white">Active</Badge>
                     </div>
                   </div>
-                </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-                <div>
-                  <h3 className="font-medium mb-4">Administrative Permissions</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">User Management</p>
-                        <p className="text-sm text-muted-foreground">Create, edit, and delete users</p>
-                      </div>
-                      <Switch />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">System Settings</p>
-                        <p className="text-sm text-muted-foreground">Modify system configuration</p>
-                      </div>
-                      <Switch />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">Reports & Analytics</p>
-                        <p className="text-sm text-muted-foreground">Generate system reports</p>
-                      </div>
-                      <Switch defaultChecked />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">Data Export</p>
-                        <p className="text-sm text-muted-foreground">Export system data</p>
-                      </div>
-                      <Switch />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium">Audit Logs</p>
-                        <p className="text-sm text-muted-foreground">View system audit trails</p>
-                      </div>
-                      <Switch />
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <TabsContent value="roles" className="mt-6">
+              <UserRoles />
+            </TabsContent>
 
-              <Button className="bg-gradient-primary">
-                <Save className="w-4 h-4 mr-2" />
-                Save Permissions
-              </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
+            <TabsContent value="permissions" className="mt-6">
+              <PermissionSettings />
+            </TabsContent>
 
-        {/* Activity */}
-        <TabsContent value="activity" className="space-y-6">
-          <Card className="shadow-card">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Activity className="w-5 h-5 mr-2" />
-                User Activity Logs
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Input placeholder="Search activities..." className="flex-1" />
-                <Button variant="outline">
-                  <Download className="w-4 h-4 mr-2" />
-                  Export Logs
-                </Button>
-              </div>
+            <TabsContent value="activity" className="mt-6">
+              <UserActivity />
+            </TabsContent>
+          </Tabs>
 
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-2 h-2 bg-success rounded-full"></div>
-                    <div>
-                      <p className="font-medium">Dr. Sarah Johnson logged in</p>
-                      <p className="text-sm text-muted-foreground">IP: 192.168.1.100 • User Agent: Chrome 120.0</p>
-                    </div>
-                  </div>
-                  <div className="text-sm text-muted-foreground">2 minutes ago</div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-2 h-2 bg-primary rounded-full"></div>
-                    <div>
-                      <p className="font-medium">Patient record updated by Nurse Mary</p>
-                      <p className="text-sm text-muted-foreground">Patient ID: PAT-2024-001 • Module: Medical Records</p>
-                    </div>
-                  </div>
-                  <div className="text-sm text-muted-foreground">15 minutes ago</div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-2 h-2 bg-medical-accent rounded-full"></div>
-                    <div>
-                      <p className="font-medium">New appointment scheduled</p>
-                      <p className="text-sm text-muted-foreground">Scheduled by Front Desk • Patient: John Smith</p>
-                    </div>
-                  </div>
-                  <div className="text-sm text-muted-foreground">1 hour ago</div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-2 h-2 bg-warning rounded-full"></div>
-                    <div>
-                      <p className="font-medium">Failed login attempt</p>
-                      <p className="text-sm text-muted-foreground">IP: 192.168.1.50 • Attempted user: admin</p>
-                    </div>
-                  </div>
-                  <div className="text-sm text-muted-foreground">2 hours ago</div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-2 h-2 bg-secondary rounded-full"></div>
-                    <div>
-                      <p className="font-medium">System backup completed</p>
-                      <p className="text-sm text-muted-foreground">Size: 2.8 GB • Duration: 45 minutes</p>
-                    </div>
-                  </div>
-                  <div className="text-sm text-muted-foreground">3 hours ago</div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-2 h-2 bg-primary rounded-full"></div>
-                    <div>
-                      <p className="font-medium">Prescription created by Dr. Michael Brown</p>
-                      <p className="text-sm text-muted-foreground">Patient: Jane Doe • Medication: Amoxicillin</p>
-                    </div>
-                  </div>
-                  <div className="text-sm text-muted-foreground">4 hours ago</div>
-                </div>
-              </div>
-
-              <div className="flex justify-center">
-                <Button variant="outline">Load More Activities</Button>
-              </div>
-            </CardContent>
-          </Card>
+          <Dialog open={isUserDialogOpen} onOpenChange={setIsUserDialogOpen}>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>Add New User</DialogTitle>
+              </DialogHeader>
+              <UserForm
+                onSubmit={(data) => {
+                  console.log("New user:", data);
+                  setIsUserDialogOpen(false);
+                  toast({
+                    title: "User Created",
+                    description: `${data.firstName} ${data.lastName} has been added successfully.`,
+                  });
+                }}
+                onCancel={() => setIsUserDialogOpen(false)}
+              />
+            </DialogContent>
+          </Dialog>
         </TabsContent>
 
         {/* System */}
@@ -717,7 +483,7 @@ export default function Settings() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span>Storage Used</span>
-                    <span className="text-sm">2.8 GB / 10 GB</span>
+                    <span className="text-sm">2.8 GB / 100 GB</span>
                   </div>
                 </div>
               </div>
