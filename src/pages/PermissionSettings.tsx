@@ -97,6 +97,7 @@ export default function PermissionSettings() {
   };
 
   const handleSavePermissions = () => {
+    console.log("Saving permissions:", permissions);
     toast({
       title: "Permissions Updated",
       description: "Permission settings have been saved successfully.",

@@ -56,6 +56,7 @@ export default function UserRoles() {
   ]);
 
   const handleCreateRole = (data: any) => {
+    console.log("Creating role:", data);
     const newRole: Role = {
       id: Date.now().toString(),
       name: data.name,
@@ -73,6 +74,7 @@ export default function UserRoles() {
   };
 
   const handleEditRole = (data: any) => {
+    console.log("Editing role:", data);
     if (editingRole) {
       setRoles(roles.map(role => 
         role.id === editingRole.id 
@@ -169,7 +171,7 @@ export default function UserRoles() {
         ))}
       </div>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog open={isDialogOpen} onOpenChange={closeDialog}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>

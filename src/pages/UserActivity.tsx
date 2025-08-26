@@ -125,8 +125,7 @@ export default function UserActivity() {
   };
 
   const handleExportLogs = () => {
-    // Implement export functionality
-    console.log("Exporting activity logs...");
+    console.log("Exporting activity logs:", filteredActivities);
   };
 
   return (

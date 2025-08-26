@@ -392,7 +392,7 @@ export default function Settings() {
             </TabsContent>
           </Tabs>
 
-          <Dialog open={isUserDialogOpen} onOpenChange={setIsUserDialogOpen}>
+          <Dialog open={isUserDialogOpen} onOpenChange={() => setIsUserDialogOpen(false)}>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
                 <DialogTitle>Add New User</DialogTitle>
