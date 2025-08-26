@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import {
   Users,
@@ -103,7 +104,9 @@ export default function Dashboard() {
                     <Input placeholder="Enter primary condition" />
                   </div>
                   <div className="col-span-2 flex justify-end space-x-2">
-                    <Button variant="outline">Cancel</Button>
+                    <DialogClose asChild>
+                      <Button variant="outline">Cancel</Button>
+                    </DialogClose>
                     <Button className="bg-gradient-primary" onClick={handleAddPatient}>Register Patient</Button>
                   </div>
                 </div>
@@ -151,7 +154,9 @@ export default function Dashboard() {
                     <Input placeholder="Additional notes..." />
                   </div>
                   <div className="col-span-2 flex justify-end space-x-2">
-                    <Button variant="outline">Cancel</Button>
+                     <DialogClose asChild>
+                       <Button variant="outline">Cancel</Button>
+                     </DialogClose>
                     <Button className="bg-gradient-primary" onClick={handleScheduleAppointment}>Book Appointment</Button>
                   </div>
                 </div>
@@ -251,7 +256,9 @@ export default function Dashboard() {
                       <Input placeholder="Enter primary condition" />
                     </div>
                     <div className="col-span-2 flex justify-end space-x-2">
-                      <Button variant="outline">Cancel</Button>
+                       <DialogClose asChild>
+                         <Button variant="outline">Cancel</Button>
+                       </DialogClose>
                       <Button className="bg-gradient-primary" onClick={handleAddPatient}>Register Patient</Button>
                     </div>
                   </div>
@@ -299,7 +306,9 @@ export default function Dashboard() {
                       <Input placeholder="Additional notes..." />
                     </div>
                     <div className="col-span-2 flex justify-end space-x-2">
-                      <Button variant="outline">Cancel</Button>
+                       <DialogClose asChild>
+                         <Button variant="outline">Cancel</Button>
+                       </DialogClose>
                       <Button className="bg-gradient-primary" onClick={handleScheduleAppointment}>Book Appointment</Button>
                     </div>
                   </div>
@@ -347,7 +356,9 @@ export default function Dashboard() {
                       <Input placeholder="Building A, Floor 3" />
                     </div>
                     <div className="col-span-2 flex justify-end space-x-2">
-                      <Button variant="outline">Cancel</Button>
+                       <DialogClose asChild>
+                         <Button variant="outline">Cancel</Button>
+                       </DialogClose>
                       <Button className="bg-gradient-primary" onClick={handleAddDoctor}>Register Doctor</Button>
                     </div>
                   </div>

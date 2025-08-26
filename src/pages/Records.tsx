@@ -19,6 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -370,7 +371,9 @@ export default function Records() {
                               <Input value={record.notes} />
                             </div>
                             <div className="flex justify-end space-x-2 pt-4">
-                              <Button variant="outline">Cancel</Button>
+                               <DialogClose asChild>
+                                 <Button variant="outline">Cancel</Button>
+                               </DialogClose>
                               <Button>Save Changes</Button>
                             </div>
                           </div>

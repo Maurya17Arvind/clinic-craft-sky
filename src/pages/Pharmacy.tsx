@@ -17,6 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -239,8 +240,10 @@ export default function Pharmacy() {
                 <label className="text-sm font-medium">Status</label>
                 <Input placeholder="Enter status" />
               </div>
-              <div className="col-span-2 flex justify-end space-x-2">
-                <Button variant="outline">Cancel</Button>
+               <div className="col-span-2 flex justify-end space-x-2">
+                 <DialogClose asChild>
+                   <Button variant="outline">Cancel</Button>
+                 </DialogClose>
                 <Button className="bg-gradient-primary" onClick={handleAddMedication}>Add Medication</Button>
               </div>
             </div>
@@ -480,7 +483,9 @@ export default function Pharmacy() {
                               </Select>
                             </div>
                             <div className="col-span-2 flex justify-end space-x-2">
-                              <Button variant="outline">Cancel</Button>
+                               <DialogClose asChild>
+                                 <Button variant="outline">Cancel</Button>
+                               </DialogClose>
                               <Button className="bg-gradient-primary" onClick={() => handleEditMedication(medication)}>Update Medication</Button>
                             </div>
                           </div>

@@ -18,6 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -189,7 +190,9 @@ export default function Doctors() {
                 <Input placeholder="Building A, Floor 3" />
               </div>
               <div className="col-span-2 flex justify-end space-x-2">
-                <Button variant="outline">Cancel</Button>
+                 <DialogClose asChild>
+                   <Button variant="outline">Cancel</Button>
+                 </DialogClose>
                 <Button className="bg-gradient-primary" onClick={handleAddDoctor}>
                   Register Doctor
                 </Button>
@@ -474,7 +477,9 @@ export default function Doctors() {
                               <Input defaultValue={doctor.location} />
                             </div>
                             <div className="col-span-2 flex justify-end space-x-2">
-                              <Button variant="outline">Cancel</Button>
+                               <DialogClose asChild>
+                                 <Button variant="outline">Cancel</Button>
+                               </DialogClose>
                               <Button className="bg-gradient-primary" onClick={() => {
                                 toast({
                                   title: "Doctor Updated",

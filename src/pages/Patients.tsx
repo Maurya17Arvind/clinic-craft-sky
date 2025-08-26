@@ -18,6 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -188,7 +189,9 @@ export default function Patients() {
                 <Input placeholder="Enter primary condition" />
               </div>
               <div className="col-span-2 flex justify-end space-x-2">
-                <Button variant="outline">Cancel</Button>
+                <DialogClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DialogClose>
                 <Button className="bg-gradient-primary" onClick={handleAddPatient}>Register Patient</Button>
               </div>
             </div>
@@ -386,7 +389,9 @@ export default function Patients() {
                               <Input defaultValue={patient.condition} />
                             </div>
                             <div className="col-span-2 flex justify-end space-x-2">
-                              <Button variant="outline">Cancel</Button>
+                               <DialogClose asChild>
+                                 <Button variant="outline">Cancel</Button>
+                               </DialogClose>
                               <Button className="bg-gradient-primary" onClick={() => handleEditPatient(patient)}>Update Patient</Button>
                             </div>
                           </div>

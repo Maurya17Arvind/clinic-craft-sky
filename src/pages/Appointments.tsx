@@ -18,6 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -223,7 +224,9 @@ export default function Appointments() {
                 <Input placeholder="Additional notes..." />
               </div>
               <div className="col-span-2 flex justify-end space-x-2">
-                <Button variant="outline">Cancel</Button>
+                <DialogClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DialogClose>
                 <Button className="bg-gradient-primary" onClick={handleBookAppointment}>
                   Book Appointment
                 </Button>
@@ -484,7 +487,9 @@ export default function Appointments() {
                               <Input defaultValue={appointment.notes} />
                             </div>
                             <div className="col-span-2 flex justify-end space-x-2">
-                              <Button variant="outline">Cancel</Button>
+                               <DialogClose asChild>
+                                 <Button variant="outline">Cancel</Button>
+                               </DialogClose>
                               <Button className="bg-gradient-primary" onClick={() => handleReschedule(appointment)}>
                                 Update Appointment
                               </Button>
