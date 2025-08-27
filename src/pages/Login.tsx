@@ -28,7 +28,7 @@ export default function Login() {
         title: "Login Successful",
         description: "Welcome back to MediCare Hospital Management System",
       });
-      navigate("/");
+      navigate("/dashboard");
     }, 2000);
   };
 
