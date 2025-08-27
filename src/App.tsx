@@ -13,6 +13,7 @@ import Analytics from "./pages/Analytics";
 import Pharmacy from "./pages/Pharmacy";
 import Settings from "./pages/Settings";
 import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/dashboard" element={
             <Layout>
               <Dashboard />
