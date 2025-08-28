@@ -16,24 +16,40 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useUserRole, UserRole } from "@/hooks/useUserRole";
 
-const navigationItems = [
-  { title: "Dashboard", url: "/", icon: Home },
+interface NavigationItem {
+  title: string;
+  url: string;
+  icon: any;
+  requiredRole?: UserRole;
+}
+
+const navigationItems: NavigationItem[] = [
+  { title: "Dashboard", url: "/dashboard", icon: Home },
   { title: "Patients", url: "/patients", icon: Users },
-  { title: "Doctors", url: "/doctors", icon: UserCheck },
+  { title: "Doctors", url: "/doctors", icon: UserCheck, requiredRole: "administrator" },
   { title: "Appointments", url: "/appointments", icon: Calendar },
   { title: "Medical Records", url: "/records", icon: FileText },
-  { title: "Analytics", url: "/analytics", icon: Activity },
+  { title: "Analytics", url: "/analytics", icon: Activity, requiredRole: "administrator" },
   { title: "Pharmacy", url: "/pharmacy", icon: Pill },
-  { title: "Settings", url: "/settings", icon: Settings },
+  { title: "Settings", url: "/settings", icon: Settings, requiredRole: "administrator" },
 ];
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
+  const { currentUser, hasAccess } = useUserRole();
 
   const isActive = (path: string) => currentPath === path;
+
+  const filteredNavigationItems = navigationItems.filter(item => {
+    if (item.requiredRole) {
+      return hasAccess(item.requiredRole);
+    }
+    return true;
+  });
 
   return (
     <div
@@ -69,7 +85,7 @@ export function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-2">
-        {navigationItems.map((item) => {
+        {filteredNavigationItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.url);
           
